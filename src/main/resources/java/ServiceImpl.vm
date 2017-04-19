@@ -1,0 +1,74 @@
+package ${basePackageName}.service.impl;
+
+
+import ${basePackageName}.mapper.$table.getClassName()Mapper;
+import ${basePackageName}.service.$table.getClassName()Service;
+import ${basePackageName}.model.$table.getClassName()PO;
+import ${basePackageName}.vo.$table.getClassName()VO;
+import ${basePackageName}.vo.$table.getClassName()SearchVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import com.elend.p2p.Result;
+import com.elend.p2p.constant.ResultCode;
+import com.elend.p2p.PageInfo;
+import java.util.*;
+
+
+@Service
+public class $table.getClassName()ServiceImpl implements $table.getClassName()Service {
+	
+	@Autowired
+	private $table.getClassName()Mapper mapper;
+
+	@Override
+	public Result<PageInfo<${table.getClassName()}VO>> list(${table.getClassName()}SearchVO svo) {
+		PageInfo<${table.getClassName()}VO> paginInfo = new PageInfo<${table.getClassName()}VO>();
+		List<${table.getClassName()}PO> list = mapper.list(svo);
+		List<${table.getClassName()}VO> volist=new ArrayList<${table.getClassName()}VO>();
+		for(${table.getClassName()}PO po:list){
+			volist.add(new ${table.getClassName()}VO(po));
+		}
+		paginInfo.setList(volist);
+
+		if (list.size() > 0) {
+			int totalNum = mapper.count(svo);
+			int totalPage = totalNum % svo.getSize() == 0 ? totalNum / svo.getSize()
+					: totalNum / svo.getSize() + 1;
+
+			paginInfo.setCount(totalNum);
+			paginInfo.setPage(svo.getPage());
+			paginInfo.setPageCount(totalPage);
+		} else {
+			paginInfo.setCount(0);
+			paginInfo.setPage(svo.getPage());
+			paginInfo.setPageCount(0);
+		}
+		return new Result<PageInfo<${table.getClassName()}VO>>(ResultCode.SUCCESS, paginInfo);
+	}
+
+	@Override
+	public Result<${table.getClassName()}VO> get($table.getPrikey().getJtype() id) {
+		${table.getClassName()}PO po=mapper.get(id);
+		if(po!=null){
+			return new Result<${table.getClassName()}VO>(ResultCode.SUCCESS, new ${table.getClassName()}VO(po));
+		}
+		return new Result<${table.getClassName()}VO>(ResultCode.FAILURE,null);
+	}
+
+	@Override
+	public Result<$table.getClassName()VO> save($table.getClassName()VO vo) {
+		if(vo.get${table.getPrikey().getCamelCase()}() > 0){
+			mapper.update(vo);
+		}else{
+			mapper.insert(vo);
+		}
+		return new Result<$table.getClassName()VO>(ResultCode.SUCCESS,vo);
+	}
+
+
+	@Override
+	public Result<$table.getPrikey().getReferenceType()> delete($table.getPrikey().getJtype() id) {
+		mapper.delete(id);
+		return new Result<$table.getPrikey().getReferenceType()>(ResultCode.SUCCESS,id);
+	}
+}

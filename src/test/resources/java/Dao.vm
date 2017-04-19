@@ -1,0 +1,48 @@
+package ${basePackageName}.dao;
+
+import java.util.List;
+import ${basePackageName}.vo.$table.getClassName()VO;
+import ${basePackageName}.vo.$table.getClassName()SearchVO;
+
+public interface $table.getClassName()Dao extends SqlMapper {
+	
+	/**
+	 * 根据搜索条件返回列表
+	 * @param svo
+	 * @return
+	 */
+	public List<$table.getClassName()VO> list(${table.getClassName()}SearchVO vo);
+	
+	/**
+	 * 根据搜索条件返回列表总数
+	 * @param svo
+	 * @return
+	 */
+	public int count(${table.getClassName()}SearchVO vo);
+	
+	/**
+	 * 根据主键id获取单条记录
+	 * @param id
+	 * @return
+	 */
+	public $table.getClassName()VO get($table.getPrikey().getJtype() id);
+	
+	/**
+	 * 插入记录
+	 * @param vo
+	 */
+	public void insert($table.getClassName()VO vo);
+	
+	/**
+	 * 更新记录
+	 * @param vo
+	 */
+	public void update($table.getClassName()VO vo);
+	
+	/**
+	 * 根据主键id删除记录
+	 * @param id
+	 */
+	public void delete($table.getPrikey().getJtype() id);
+
+}

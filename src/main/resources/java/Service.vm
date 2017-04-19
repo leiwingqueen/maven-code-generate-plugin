@@ -1,0 +1,36 @@
+package ${basePackageName}.service;
+
+import ${basePackageName}.vo.$table.getClassName()VO;
+import ${basePackageName}.vo.$table.getClassName()SearchVO;
+import com.elend.p2p.Result;
+import com.elend.p2p.PageInfo;
+
+public interface $table.getClassName()Service {
+	
+	/**
+	 * 根据搜索条件返回列表
+	 * @param svo
+	 * @return
+	 */
+	Result<PageInfo<${table.getClassName()}VO>> list(${table.getClassName()}SearchVO vo);
+	
+	/**
+	 * 根据主键id获取单条记录
+	 * @param id
+	 * @return
+	 */
+	Result<${table.getClassName()}VO> get($table.getPrikey().getJtype() id);
+	
+	/**
+	 * 插入记录
+	 * @param vo
+	 */
+	Result<$table.getClassName()VO> save($table.getClassName()VO vo);
+	
+	/**
+	 * 根据主键id删除记录
+	 * @param id
+	 */
+	Result<$table.getPrikey().getReferenceType()> delete($table.getPrikey().getJtype() id);
+
+}

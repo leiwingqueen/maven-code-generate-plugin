@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- "namespace" must be the path of interface, or show error “is not known to the MapperRegistry” when launch -->
+<mapper namespace="${basePackageName}.mapper.${table.getClassName()}Mapper">
+	
+	<!-- "id" must be as same as method name of the interface -->
+	<select id="list" resultType="$table.getlClassName()PO" parameterType="$table.getlClassName()SearchVO">
+		<![CDATA[select * from $table.getTableName() ]]>
+		<where>
+#foreach($v in $table.getSearch())
+			<if test="$v.getPropertityName() != null and $v.getPropertityName() != ''" >
+			#if($velocityCount == 1)
+	<![CDATA[ $v.name = #{$v.getPropertityName()}]]>
+			#else
+	<![CDATA[ AND $v.name = #{$v.getPropertityName()} ]]>
+			#end
+</if>
+#end
+		</where>
+		ORDER BY $table.getPrikey().getName() DESC 
+		<![CDATA[ LIMIT #ZZ{startZZ} , #ZZ{sizeZZ}  ]]>
+	</select>
+	
+	<select id="count" resultType="int" parameterType="$table.getlClassName()SearchVO">
+		<![CDATA[select count(*) as num from $table.getTableName() ]]>
+		<where>
+#foreach($v in $table.getSearch())
+			<if test="$v.getPropertityName() != null and $v.getPropertityName() != ''" >
+	#if($velocityCount == 1)
+			<![CDATA[ $v.name = #{$v.getPropertityName()}  ]]>
+	#else
+			<![CDATA[ AND $v.name = #{$v.getPropertityName()} ]]>
+	#end
+		</if>
+#end
+		</where>
+	</select>
+	
+	<select id="get" resultType="$table.getlClassName()PO" parameterType="$table.getPrikey().getJtype()">
+		<![CDATA[
+			select * from $table.getTableName() where $table.getPrikey().getName() = #{$table.getPrikey().getPropertityName()}
+		]]>
+	</select>
+	
+	<insert id="insert" parameterType="$table.getlClassName()PO">
+		<![CDATA[
+			insert into $table.getTableName() set
+#foreach($v in $table.getItems())
+	#if($v.name!=$table.getPrikey().getName())
+		#if($velocityCount != $table.getItems().size())
+			$v.name=#{$v.getPropertityName()},
+		#else
+			$v.name=#{$v.getPropertityName()}
+		#end
+	#end
+#end	
+		]]>
+	</insert>
+    
+	<update id="update" parameterType="$table.getlClassName()PO">
+		<![CDATA[
+			update $table.getTableName() set
+#foreach($v in $table.getItems())
+	#if($v.name!=$table.getPrikey().getName())
+		#if($velocityCount != $table.getItems().size())
+			$v.name=#{$v.getPropertityName()},
+		#else
+			$v.name=#{$v.getPropertityName()}
+		#end
+	#end
+#end
+	where $table.getPrikey().getName() = #{$table.getPrikey().getPropertityName()}
+		]]>
+	</update>
+    
+	<delete id="delete" parameterType="$table.getPrikey().getJtype()">
+		<![CDATA[
+#set($flag = 0) 		
+#foreach($v in $table.getItems())
+#if($v.name=="del")
+#set($flag = 1) 
+			UPDATE $table.getTableName() SET 
+					del = 1 
+					WHERE $table.getPrikey().getName() = #{$table.getPrikey().getPropertityName()}
+#end
+#end
+#if($flag == 0)
+			DELETE FROM $table.getTableName() WHERE $table.getPrikey().getName() = #{$table.getPrikey().getPropertityName()}
+#end		
+		]]>
+	</delete>
+</mapper>

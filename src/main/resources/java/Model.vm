@@ -1,0 +1,31 @@
+package ${basePackageName}.model;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
+
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+public class $table.getClassName()PO implements Serializable {
+	
+#foreach($v in $table.getItems())
+	/** $v.comment */
+	protected $v.jtype $v.getPropertityName();
+	
+#end
+#foreach($v in $table.getItems())
+	public $v.jtype get${v.getCamelCase()}() {
+		return $v.getPropertityName();
+	}
+	
+	public void set${v.getCamelCase()}($v.jtype $v.getPropertityName()) {
+		this.$v.getPropertityName() = $v.getPropertityName();
+	}
+	
+#end
+	@Override 
+    public String toString() { 
+            return ReflectionToStringBuilder.toString(this,ToStringStyle.SHORT_PREFIX_STYLE); 
+    }
+}

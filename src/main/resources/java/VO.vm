@@ -1,0 +1,17 @@
+package ${basePackageName}.vo;
+import ${basePackageName}.model.$table.getClassName()PO;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+public class $table.getClassName()VO  extends $table.getClassName()PO{
+	public $table.getClassName()VO($table.getClassName()PO po){
+#foreach($v in $table.getItems())
+		this.$v.getPropertityName()=po.get${v.getCamelCase()}();
+#end
+	}
+	
+	@Override 
+    public String toString() { 
+            return ReflectionToStringBuilder.toString(this,ToStringStyle.SHORT_PREFIX_STYLE); 
+    }
+}

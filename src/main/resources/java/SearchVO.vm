@@ -1,0 +1,28 @@
+package ${basePackageName}.vo;
+
+import com.elend.p2p.util.vo.BaseSearchVO;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+public class $table.getClassName()SearchVO extends BaseSearchVO{
+
+#foreach($v in $table.getSearch())
+	/** $v.comment */
+	private $v.jtype $v.getPropertityName();
+	
+#end
+#foreach($v in $table.getSearch())
+	public $v.jtype get${v.getCamelCase()}() {
+		return $v.getPropertityName();
+	}
+	
+	public void set${v.getCamelCase()}($v.jtype $v.getPropertityName()) {
+		this.$v.getPropertityName() = $v.getPropertityName();
+	}
+	
+#end
+	@Override 
+    public String toString() { 
+            return ReflectionToStringBuilder.toString(this,ToStringStyle.SHORT_PREFIX_STYLE); 
+    }
+}

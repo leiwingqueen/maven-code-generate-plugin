@@ -1,0 +1,49 @@
+package ${basePackageName}.mapper;
+
+import java.util.List;
+import com.elend.p2p.mapper.SqlMapper;
+import ${basePackageName}.vo.$table.getClassName()SearchVO;
+import ${basePackageName}.model.$table.getClassName()PO;
+
+public interface $table.getClassName()Mapper extends SqlMapper {
+	
+	/**
+	 * 根据搜索条件返回列表
+	 * @param svo
+	 * @return
+	 */
+	List<$table.getClassName()PO> list(${table.getClassName()}SearchVO svo);
+	
+	/**
+	 * 根据搜索条件返回列表总数
+	 * @param svo
+	 * @return
+	 */
+	int count(${table.getClassName()}SearchVO svo);
+	
+	/**
+	 * 根据主键id获取单条记录
+	 * @param id
+	 * @return
+	 */
+	$table.getClassName()PO get($table.getPrikey().getJtype() id);
+	
+	/**
+	 * 插入记录
+	 * @param vo
+	 */
+	void insert($table.getClassName()PO po);
+	
+	/**
+	 * 更新记录
+	 * @param vo
+	 */
+	void update($table.getClassName()PO po);
+	
+	/**
+	 * 根据主键id删除记录
+	 * @param id
+	 */
+	void delete($table.getPrikey().getJtype() id);
+
+}
